@@ -9,7 +9,7 @@ from albumentations.core.transforms_interface import ImageOnlyTransform
 from .torch_transform import MobiusMPDTransform
 
 
-class A_MobiusMPD(ImageOnlyTransform):
+class A_MobiusMPDTransform(ImageOnlyTransform):
     """Albumentations wrapper around :class:`mobius_mpd.MobiusMPDTransform`.
 
     Parameters
