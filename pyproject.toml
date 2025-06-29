@@ -1,0 +1,26 @@
+
+[build-system]
+requires = ["setuptools>=67", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mobius-mpd"
+version = "0.1.0"
+description = "Möbius Perspective Distortion (MPD) data‑augmentation transform."
+readme = "README.md"
+authors = [
+    { name = "Prakash Chandra Chhipa", email = "prakash@example.com" }
+]
+keywords = ["data‑augmentation", "vision", "perspective‑distortion", "albumentations", "torchvision"]
+requires-python = ">=3.8"
+dependencies = [
+    "torch>=1.12",
+    "torchvision>=0.13",
+    "albumentations>=1.0.3",
+    "numpy",
+    "Pillow",
+]
+
+[project.urls]
+Homepage = "https://github.com/yourusername/mobius-mpd"
+Paper = "https://arxiv.org/abs/2405.02296"
