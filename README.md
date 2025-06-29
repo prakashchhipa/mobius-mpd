@@ -2,8 +2,8 @@
 # mobius‑mpd
 
 > **Möbius Perspective Distortion (MPD)** augmentation for PyTorch & Albumentations  
-> **Paper**: Chhipa, Prakash Chandra, *et al.* “Möbius transform for mitigating
-> perspective distortions in representation learning.” **ECCV 2024**.
+
+> Chhipa, Prakash Chandra, et al. "Möbius transform for mitigating perspective distortions in representation learning." European Conference on Computer Vision. Cham: Springer Nature Switzerland, 2024.
 
 ![demo](![MPD demo](https://raw.githubusercontent.com/prakashchhipa/mobius-mpd/main/assets/mobius_mpd.jpg))
 
