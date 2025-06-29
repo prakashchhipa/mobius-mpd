@@ -5,24 +5,46 @@
 
 > Chhipa, Prakash Chandra, et al. "Möbius transform for mitigating perspective distortions in representation learning." European Conference on Computer Vision. Cham: Springer Nature Switzerland, 2024.
 
-![demo](![MPD demo](https://raw.githubusercontent.com/prakashchhipa/mobius-mpd/main/assets/mobius_mpd.jpg))
+# Möbius-MPD — Perspective-Distortion Augmentation
 
-## What challenges perspective distortion poses in real-world vision applications?
+<div align="center">
 
-Perspective distortions (steep viewpoint changes) are a major failure mode for
-CNNs and ViTs. The ECCV 2024 paper shows that augmenting with a simple single‑parameter
-Möbius transform
+<!-- animated previews -->
+<img src="assets/two_cats_mpd.gif"   width="45%"/>
+<img src="assets/burj_mpd_transition.gif"   width="45%"/><br/>
+<img src="assets/parking_mpd_transition.gif" width="45%"/>
 
-## How to make models robust against perspective distortions?
+</div>
 
+---
 
+### 1 What is perspective distortion?  
+> A camera viewed from an oblique pose **changes the apparent shape, size, orientation and angles of objects in the image plane**.:contentReference[oaicite:0]{index=0}
 
-```
-f(z) = (a z + b) / (c z + d),   with  a = d = 1, b = 0
-```
+---
 
-yields **+10 pp** RobustBench ImageNet‑PD accuracy, improves crowd‑counting,
-object detection and person Re‑ID – *without harming clean accuracy*.
+### 2 Why perspective distortion is troublesome for computer-vision models?  
+* **Camera parameters are hard to estimate**, so PD can’t be synthesised easily for training.:contentReference[oaicite:1]{index=1}  
+* Existing augmentation methods are affine and lienar in nature are not able to model perspective distortion.:contentReference[oaicite:2]{index=2}  
+* Lack of perspective distortion data leaves models brittle in the wild for real-world applications—crowd counting, fisheye recognition, person re-ID and object detection all degrade when PD is present.:contentReference[oaicite:3]{index=3}
+
+---
+
+### 3 What does Möbius-MPD offer?  
+Möbius-MPD **mathmetically models perspective distortion and translate it directly in pixel space** with a conformal Möbius map  
+
+\[
+\Phi(z)=\frac{a\,z+b}{c\,z+d},\qquad c!=0
+\]
+
+and controls the view generation only the real and imaginery compoents of complex parameter **c**.  
+
+* **Orientation & intensity control** – the signs and magnitudes of \(\operatorname{Re}(c)\) and \(\operatorname{Im}(c)\) yield left / right / top / bottom or corner views, scaled continuously.:contentReference[oaicite:4]{index=4}  
+* **No camera parameters or real PD images required** – the transform alone synthesises realistic PD.:contentReference[oaicite:5]{index=5}  
+* **Padding variant** – optionally fills black corners with edge pixels.:contentReference[oaicite:6]{index=6}  
+* **Proven gains** – +10 pp on ImageNet-PD and improvements across crowd counting, fisheye recognition, person re-ID and COCO object detection.:contentReference[oaicite:7]{index=7}
+
+---
 
 ## Installation
 
@@ -71,12 +93,17 @@ aug = A.Compose([
 
 **Parameters**
 
-| name | default | description |
-|------|---------|-------------|
-| `p`  | `1.0`   | probability of applying the transform |
-| `min`| `0.1`   | lower bound for the sampled coefficient \(|c|\) |
-| `max`| `0.3`   | upper bound for the sampled coefficient \(|c|\) |
-| `interpolate_bg` | `False` | clamp coordinates to avoid black borders |
+| name          | default     | description                                                                                         |
+|---------------|-------------|-----------------------------------------------------------------------------------------------------|
+| `p`           | `1.0`       | probability of applying the transform                                                               |
+| `min`         | `0.1`       | lower bound for the sampled coefficient \(|c|\)                                                     |
+| `max`         | `0.3`       | upper bound for the sampled coefficient \(|c|\)                                                     |
+| `background`  | `"none"`    | `"none"` → black corners · `"padded"` → edge-pixel padding                                          |
+| `view_mode`   | `"random"`  | `"random"`, `"uni-direction"`, or `"bi-direction"`                                                  |
+| `view`        | `"random"`  | orientation; for **uni**: `left / right / top / bottom` · for **bi**: `left-top / left-bottom / right-top / right-bottom` |
+
+
+**Parent project page:** <https://prakashchhipa.github.io/projects/mpd/>
 
 ## BibTeX
 
