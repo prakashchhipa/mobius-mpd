@@ -13,6 +13,7 @@
 <img src="assets/two_cats_mpd_transition.gif"   width="45%"/>
 <img src="assets/burj_mpd_transition.gif"   width="45%"/><br/>
 <img src="assets/parking_mpd_transition.gif" width="45%"/>
+<img src="assets/milan_cathedral_mpd_transition.gif" width="45%"/>
 
 </div>
 
@@ -33,11 +34,11 @@
 ### 3 What does Möbius-MPD offer?  
 > Möbius-MPD **mathmetically models perspective distortion and translate it directly in pixel space** with a conformal Möbius map  
 
-\[
-\Phi(z)=\frac{a\,z+b}{c\,z+d},\qquad c!=0
-\]
+```
+> \Phi(z)=\frac{a\,z+b}{c\,z+d},\qquad c!=0
+```
 
->and controls the view generation only the real and imaginery compoents of complex parameter **c**.  
+> and controls the view generation only the real and imaginery compoents of complex parameter **c**.  
 
 > **Orientation & intensity control** – the signs and magnitudes of \(\operatorname{Re}(c)\) and \(\operatorname{Im}(c)\) yield left / right / top / bottom or corner views, scaled continuously.:contentReference[oaicite:4]{index=4}  
 > **No camera parameters or real PD images required** – the transform alone synthesises realistic PD.:contentReference[oaicite:5]{index=5}  
