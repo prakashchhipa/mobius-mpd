@@ -16,4 +16,4 @@ from .albumentations_transform import A_MobiusMPD
 
 __all__ = ["MobiusMPDTransform", "A_MobiusMPD"]
 
-__version__ = "0.1.1"
+__version__ = "0.1.3"
