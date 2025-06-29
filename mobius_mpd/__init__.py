@@ -12,7 +12,7 @@ If you use this package in academic work, **please cite the paper above**.
 """
 
 from .torch_transform import MobiusMPDTransform
-from .albumentations_transform import A_MobiusMPD
+from .albumentations_transform import A_MobiusMPDTransform
 
 __all__ = ["MobiusMPDTransform", "A_MobiusMPDTransform"]
 
