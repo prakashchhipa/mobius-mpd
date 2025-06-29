@@ -10,7 +10,7 @@
 <div align="center">
 
 <!-- animated previews -->
-<img src="assets/two_cats_mpd.gif"   width="45%"/>
+<img src="assets/two_cats_mpd_transition.gif"   width="45%"/>
 <img src="assets/burj_mpd_transition.gif"   width="45%"/><br/>
 <img src="assets/parking_mpd_transition.gif" width="45%"/>
 
