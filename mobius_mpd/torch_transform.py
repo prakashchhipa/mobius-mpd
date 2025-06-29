@@ -1,81 +1,68 @@
 
+from __future__ import annotations
 import random
-from typing import Tuple
+from typing import Tuple, Literal
 
 import torch
 import torch.nn.functional as F
 from torchvision.transforms import functional as TF
 from PIL import Image
 
+BackgroundT = Literal["none", "padded"]
+ViewModeT   = Literal["random", "uni-direction", "bi-direction"]
+UniViewT    = Literal["random", "right", "left", "top", "bottom"]
+BiViewT     = Literal["random",
+                      "right-bottom", "right-top",
+                      "left-bottom",  "left-top"]
+
 
 class MobiusMPDTransform:
-    """Möbius Perspective‑Distortion augmentation.
-
-    Parameters
-    ----------
-    p : float, default=1.0
-        Probability of applying the transform.
-    min : float, default=0.1
-        Minimum absolute value for the coefficient |c|.
-    max : float, default=0.3
-        Maximum absolute value for the coefficient |c|.
-    interpolate_bg : bool, default=False
-        Clamp the sampling grid to [-1,1] (avoids black borders).
-
-    Notes
-    -----
-    This follows the implementation described in:
-
-        Chhipa, Prakash C., et al.
-        "Möbius transform for mitigating perspective distortions in representation learning."
-        *European Conference on Computer Vision* (ECCV) 2024.
-
-    The Möbius map is
-
-        f(z) = (a z + b) / (c z + d)
-
-    where we fix a = d = 1, b = 0 and sample exactly one non‑zero component
-    of c per call (real or imaginary) within [min, max].
-
-    """
+    """Möbius Perspective Distortion augmentation with view control."""
 
     def __init__(
         self,
         p: float = 1.0,
+        *,
         min: float = 0.1,
         max: float = 0.3,
-        interpolate_bg: bool = False,
+        background: BackgroundT = "none",
+        view_mode: ViewModeT = "random",
+        view: str = "random",
     ) -> None:
         if not 0.0 <= p <= 1.0:
-            raise ValueError("p must be in [0, 1]")
+            raise ValueError("p must be in [0,1]")
         if min <= 0 or max <= 0 or max < min:
-            raise ValueError("Require 0 < min ≤ max")
+            raise ValueError("Require 0 < min <= max")
+        if background not in ("none", "padded"):
+            raise ValueError("background must be 'none' or 'padded'")
 
         self.p = p
         self.min_mag = float(min)
         self.max_mag = float(max)
-        self.interpolate_bg = interpolate_bg
+        self.background = background
+        self.view_mode = view_mode
+        self.view = view
 
-        # Möbius parameters (a=1, b=0, d=1 are fixed)
-        self.a_real, self.a_imag = 1.0, 0.0
-        self.b_real, self.b_imag = 0.0, 0.0
-        self.d_real, self.d_imag = 1.0, 0.0
+        # fixed coefficients a=d=1, b=0
+        self.a_real = 1.0
+        self.a_imag = 0.0
+        self.b_real = 0.0
+        self.b_imag = 0.0
+        self.d_real = 1.0
+        self.d_imag = 0.0
 
-    # ------------------------------------------------------------------ #
-    # Public API                                                          #
-    # ------------------------------------------------------------------ #
+    # ------------------------------------------------------------ #
     def __call__(self, img: Image.Image) -> Image.Image:
         if random.random() > self.p:
             return img
 
-        width, height = img.size
+        c_real, c_imag = self._choose_c()
+
+        w, h = img.size
         device = torch.device("cpu")
-
-        c_real, c_imag = self._sample_c()
-
         y, x = torch.meshgrid(
-            torch.linspace(-1, 1, height, device=device, dtype=torch.float32),
-            torch.linspace(-1, 1, width, device=device, dtype=torch.float32),
+            torch.linspace(-1, 1, h, dtype=torch.float32, device=device),
+            torch.linspace(-1, 1, w, dtype=torch.float32, device=device),
             indexing="ij",
         )
         z_real, z_imag = x, y
@@ -85,38 +72,63 @@ class MobiusMPDTransform:
 
         den_real = c_real * z_real - c_imag * z_imag + self.d_real
         den_imag = c_real * z_imag + c_imag * z_real + self.d_imag
-
         denom = den_real.pow(2) + den_imag.pow(2)
-        zt_real = (num_real * den_real + num_imag * den_imag) / denom
-        zt_imag = (num_imag * den_real - num_real * den_imag) / denom
 
-        xt = zt_real
-        yt = zt_imag
+        xt = (num_real * den_real + num_imag * den_imag) / denom
+        yt = (num_imag * den_real - num_real * den_imag) / denom
 
-        if self.interpolate_bg:
+        if self.background == "padded":
             xt = torch.clamp(xt, -1, 1)
             yt = torch.clamp(yt, -1, 1)
 
-        grid = torch.stack((xt, yt), dim=-1)[None, ...]  # (1, H, W, 2)
-
+        grid = torch.stack((xt, yt), dim=-1)[None, ...]
         img_t = TF.pil_to_tensor(img).float().unsqueeze(0) / 255.0
         out = F.grid_sample(img_t, grid, mode="bilinear", align_corners=True)
         return TF.to_pil_image(out[0].clamp(0, 1))
 
-    # ------------------------------------------------------------------ #
-    # Helpers                                                             #
-    # ------------------------------------------------------------------ #
-    def _sample_c(self) -> Tuple[float, float]:
-        magnitude = random.uniform(self.min_mag, self.max_mag)
-        sign = random.choice([-1.0, 1.0])
-        if random.random() < 0.5:
-            return magnitude * sign, 0.0
-        else:
-            return 0.0, magnitude * sign
+    # ------------------------------------------------------------ #
+    def _choose_c(self) -> Tuple[float, float]:
+        mag_r = random.uniform(self.min_mag, self.max_mag)
+        mag_i = random.uniform(self.min_mag, self.max_mag)
 
-    # ------------------------------------------------------------------ #
+        if self.view_mode == "random":
+            return self._legacy_random(mag_r, mag_i)
+
+        if self.view_mode == "uni-direction":
+            view = self.view if self.view != "random" else random.choice(
+                ["right", "left", "bottom", "top"])
+            mapping = {
+                "right":  ( +mag_r, 0.0 ),
+                "left":   ( -mag_r, 0.0 ),
+                "bottom": ( 0.0, +mag_i ),
+                "top":    ( 0.0, -mag_i ),
+            }
+            if view not in mapping:
+                raise ValueError(f"invalid uni-direction view {view}")
+            return mapping[view]
+
+        if self.view_mode == "bi-direction":
+            view = self.view if self.view != "random" else random.choice(
+                ["right-bottom", "right-top", "left-bottom", "left-top"])
+            mapping = {
+                "right-bottom": ( +mag_r, +mag_i ),
+                "right-top":    ( +mag_r, -mag_i ),
+                "left-bottom":  ( -mag_r, +mag_i ),
+                "left-top":     ( -mag_r, -mag_i ),
+            }
+            if view not in mapping:
+                raise ValueError(f"invalid bi-direction view {view}")
+            return mapping[view]
+
+        raise ValueError(f"invalid view_mode {self.view_mode}")
+
+    def _legacy_random(self, mag_r: float, mag_i: float) -> Tuple[float, float]:
+        if random.random() < 0.5:
+            return random.choice([-mag_r, +mag_r]), 0.0
+        return 0.0, random.choice([-mag_i, +mag_i])
+
+    # ------------------------------------------------------------ #
     def __repr__(self) -> str:
-        return (
-            f"{self.__class__.__name__}(p={self.p}, min={self.min_mag}, "
-            f"max={self.max_mag}, interpolate_bg={self.interpolate_bg})"
-        )
+        return (f"{self.__class__.__name__}(p={self.p}, min={self.min_mag}, "
+                f"max={self.max_mag}, background='{self.background}', "
+                f"view_mode='{self.view_mode}', view='{self.view}')")
