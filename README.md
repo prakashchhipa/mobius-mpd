@@ -101,13 +101,13 @@ aug = A.Compose([
 | `view`        | `"random"`  | orientation; for **uni**: `left / right / top / bottom` · for **bi**: `left-top / left-bottom / right-top / right-bottom` |
 
 Examples for different configurations to generate different views. Set view and/or view_mode to random for augmentaiton purpose.
-<img src="https://raw.githubusercontent.com/prakashchhipa/mobius-mpd/main/assets/exmaples_mpd.png"   width="80%"/>
+<img src="https://raw.githubusercontent.com/prakashchhipa/mobius-mpd/main/assets/examples_mpd.png"   width="80%"/>
 
 Background setting with and without padding.
-<img src="https://raw.githubusercontent.com/prakashchhipa/mobius-mpd/main/assets/exmaples_mpd.png"   width="80%"/>
+<img src="https://raw.githubusercontent.com/prakashchhipa/mobius-mpd/main/assets/background_options.png"   width="80%"/>
 
 **Parent project page:** <https://prakashchhipa.github.io/projects/mpd/>
-<img src="https://raw.githubusercontent.com/prakashchhipa/mobius-mpd/main/assets/background_options.png"   width="80%"/>
+
 
 ## BibTeX
 
