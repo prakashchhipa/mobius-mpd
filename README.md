@@ -33,7 +33,9 @@
 ### 3 What does Möbius-MPD offer?  
 > Möbius-MPD **mathmetically models perspective distortion and translate it directly in pixel space** with a conformal Möbius mapping  
 
-$ \Phi(z)=\frac{a\,z+b}{c\,z+d},\qquad c!=0 $
+$$
+\Phi(z)=\frac{a z + b}{c z + d}, \qquad a=d=1,\; b=0
+$$
 
 > and controls the view generation only the real and imaginery compoents of complex parameter **c**.  
 
