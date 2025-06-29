@@ -21,6 +21,9 @@ dependencies = [
     "Pillow",
 ]
 
+[tool.setuptools]
+packages = ["mobius_mpd"] 
+
 [project.urls]
 Homepage = "https://github.com/prakashchhipa/mobius-mpd"
 ParentProject = "https://prakashchhipa.github.io/projects/mpd/"
