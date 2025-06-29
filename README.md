@@ -9,11 +9,10 @@
 
 <div align="center">
 
-<!-- animated previews -->
-<img src="assets/two_cats_mpd_transition.gif"   width="45%"/>
-<img src="assets/burj_mpd_transition.gif"   width="45%"/><br/>
-<img src="assets/parking_mpd_transition.gif" width="45%"/>
-<img src="assets/milan_cathedral_mpd_transition.gif" width="45%"/>
+<img src="https://raw.githubusercontent.com/prakashchhipa/mobius-mpd/main/assets/two_cats_mpd_transition.gif"   width="45%"/>
+<img src="https://raw.githubusercontent.com/prakashchhipa/mobius-mpd/main/assets/burj_mpd_transition.gif"        width="45%"/><br/>
+<img src="https://raw.githubusercontent.com/prakashchhipa/mobius-mpd/main/assets/parking_mpd_transition.gif"     width="45%"/>
+<img src="https://raw.githubusercontent.com/prakashchhipa/mobius-mpd/main/assets/milan_cathedral_mpd_transition.gif" width="45%"/>
 
 </div>
 
