@@ -74,7 +74,6 @@ train_aug = transforms.Compose([
         min=0.1,    # minimum |c|
         max=0.3,    # maximum |c|
     ),
-    transforms.RandomHorizontalFlip(),
     transforms.ToTensor(),
 ])
 ```
@@ -83,11 +82,10 @@ train_aug = transforms.Compose([
 
 ```python
 import albumentations as A
-from mobius_mpd import A_MobiusMPD
+from mobius_mpd import A_MobiusMPDTransform
 
 aug = A.Compose([
-    A_MobiusMPD(p=0.7, min=0.05, max=0.25),
-    A.RandomBrightnessContrast(p=0.3),
+    A_MobiusMPDTransform(p=0.7, min=0.05, max=0.25),
 ])
 ```
 
