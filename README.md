@@ -34,10 +34,10 @@
 > Möbius-MPD **mathmetically models perspective distortion and translate it directly in pixel space** with a conformal Möbius mapping  
 
 $$
-\Phi(z)=\frac{a z + b}{c z + d}, \qquad a=d=1,\; b=0
+\Phi(z)=\frac{a z + b}{c z + d}, \qquad c!=0
 $$
 
-> and controls the view generation only the real and imaginery compoents of complex parameter **c**.  
+> and the real and imaginery compoents of complex parameter **c** controls the perspectively distorted view generations.  
 
 > **Orientation & intensity control** – the signs and magnitudes of \(\operatorname{Re}(c)\) and \(\operatorname{Im}(c)\) yield left / right / top / bottom or corner views, scaled continuously.:contentReference[oaicite:4]{index=4}  
 > **No camera parameters or real PD images required** – the transform alone synthesises realistic PD.:contentReference[oaicite:5]{index=5}  
