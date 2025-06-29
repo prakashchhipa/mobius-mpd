@@ -9,7 +9,7 @@ version = "0.1.0"
 description = "Möbius Perspective Distortion (MPD) data‑augmentation transform."
 readme = "README.md"
 authors = [
-    { name = "Prakash Chandra Chhipa", email = "prakash@example.com" }
+    { name = "Prakash Chandra Chhipa", email = "prakash.chandra.chhipa@gmail.com" }
 ]
 keywords = ["data‑augmentation", "vision", "perspective‑distortion", "albumentations", "torchvision"]
 requires-python = ">=3.8"
@@ -22,5 +22,6 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/yourusername/mobius-mpd"
+Homepage = "https://github.com/prakashchhipa/mobius-mpd"
+ParentProject = "https://prakashchhipa.github.io/projects/mpd/"
 Paper = "https://arxiv.org/abs/2405.02296"
