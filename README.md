@@ -24,25 +24,25 @@
 ---
 
 ### 2 Why perspective distortion is troublesome for computer-vision models?  
-* **Camera parameters are hard to estimate**, so PD can’t be synthesised easily for training.:contentReference[oaicite:1]{index=1}  
-* Existing augmentation methods are affine and lienar in nature are not able to model perspective distortion.:contentReference[oaicite:2]{index=2}  
-* Lack of perspective distortion data leaves models brittle in the wild for real-world applications—crowd counting, fisheye recognition, person re-ID and object detection all degrade when PD is present.:contentReference[oaicite:3]{index=3}
+> **Camera parameters are hard to estimate**, so PD can’t be synthesised easily for training.:contentReference[oaicite:1]{index=1}  
+> Existing augmentation methods are affine and lienar in nature are not able to model perspective distortion.:contentReference[oaicite:2]{index=2}  
+> Lack of perspective distortion data leaves models brittle in the wild for real-world applications—crowd counting, fisheye recognition, person re-ID and object detection all degrade when PD is present.:contentReference[oaicite:3]{index=3}
 
 ---
 
 ### 3 What does Möbius-MPD offer?  
-Möbius-MPD **mathmetically models perspective distortion and translate it directly in pixel space** with a conformal Möbius map  
+> Möbius-MPD **mathmetically models perspective distortion and translate it directly in pixel space** with a conformal Möbius map  
 
 \[
 \Phi(z)=\frac{a\,z+b}{c\,z+d},\qquad c!=0
 \]
 
-and controls the view generation only the real and imaginery compoents of complex parameter **c**.  
+>and controls the view generation only the real and imaginery compoents of complex parameter **c**.  
 
-* **Orientation & intensity control** – the signs and magnitudes of \(\operatorname{Re}(c)\) and \(\operatorname{Im}(c)\) yield left / right / top / bottom or corner views, scaled continuously.:contentReference[oaicite:4]{index=4}  
-* **No camera parameters or real PD images required** – the transform alone synthesises realistic PD.:contentReference[oaicite:5]{index=5}  
-* **Padding variant** – optionally fills black corners with edge pixels.:contentReference[oaicite:6]{index=6}  
-* **Proven gains** – +10 pp on ImageNet-PD and improvements across crowd counting, fisheye recognition, person re-ID and COCO object detection.:contentReference[oaicite:7]{index=7}
+> **Orientation & intensity control** – the signs and magnitudes of \(\operatorname{Re}(c)\) and \(\operatorname{Im}(c)\) yield left / right / top / bottom or corner views, scaled continuously.:contentReference[oaicite:4]{index=4}  
+> **No camera parameters or real PD images required** – the transform alone synthesises realistic PD.:contentReference[oaicite:5]{index=5}  
+> **Padding variant** – optionally fills black corners with edge pixels.:contentReference[oaicite:6]{index=6}  
+> **Proven gains** – +10 pp on ImageNet-PD and improvements across crowd counting, fisheye recognition, person re-ID and COCO object detection.:contentReference[oaicite:7]{index=7}
 
 ---
 
@@ -110,7 +110,7 @@ aug = A.Compose([
 ```bibtex
 @inproceedings{chhipa2024mobius,
   title     = {Möbius transform for mitigating perspective distortions in representation learning},
-  author    = {Chhipa, Prakash Chandra and ...},
+  author    = {Chhipa, Prakash Chandra et al.},
   booktitle = {European Conference on Computer Vision (ECCV)},
   year      = {2024},
   publisher = {Springer Nature Switzerland}
