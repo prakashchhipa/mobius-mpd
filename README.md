@@ -5,13 +5,17 @@
 > **Paper**: Chhipa, Prakash Chandra, *et al.* “Möbius transform for mitigating
 > perspective distortions in representation learning.” **ECCV 2024**.
 
-![demo](https://raw.githubusercontent.com/yourusername/mobius-mpd/main/docs/demo_grid.gif)
+![demo](![MPD demo](https://raw.githubusercontent.com/prakashchhipa/mobius-mpd/main/assets/mobius_mpd.jpg))
 
-## Why MPD?
+## What challenges perspective distortion poses in real-world vision applications?
 
 Perspective distortions (steep viewpoint changes) are a major failure mode for
 CNNs and ViTs. The ECCV 2024 paper shows that augmenting with a simple single‑parameter
 Möbius transform
+
+## How to make models robust against perspective distortions?
+
+
 
 ```
 f(z) = (a z + b) / (c z + d),   with  a = d = 1, b = 0
@@ -29,7 +33,7 @@ pip install mobius-mpd
 or in editable mode:
 
 ```bash
-git clone https://github.com/yourusername/mobius-mpd
+git clone https://github.com/prakashchhipa/mobius-mpd
 cd mobius-mpd
 pip install -e .
 ```
