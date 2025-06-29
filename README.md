@@ -9,8 +9,8 @@
 
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/prakashchhipa/mobius-mpd/main/assets/two_cats_mpd_transition.gif"   width="80%"/>
-<img src="https://raw.githubusercontent.com/prakashchhipa/mobius-mpd/main/assets/burj_mpd_transition.gif"        width="80%"/><br/>
+<img src="https://raw.githubusercontent.com/prakashchhipa/mobius-mpd/main/assets/two_cats_mpd_transition.gif"   width="100%"/>
+<img src="https://raw.githubusercontent.com/prakashchhipa/mobius-mpd/main/assets/burj_mpd_transition.gif"        width="100%"/><br/>
 <img src="https://raw.githubusercontent.com/prakashchhipa/mobius-mpd/main/assets/parking_mpd_transition.gif"     width="45%"/>
 <img src="https://raw.githubusercontent.com/prakashchhipa/mobius-mpd/main/assets/milan_cathedral_mpd_transition.gif" width="45%"/>
 
@@ -101,10 +101,10 @@ aug = A.Compose([
 | `view`        | `"random"`  | orientation; for **uni**: `left / right / top / bottom` · for **bi**: `left-top / left-bottom / right-top / right-bottom` |
 
 Examples for different configurations to generate different views. Set view and/or view_mode to random for augmentaiton purpose.
-<img src="https://raw.githubusercontent.com/prakashchhipa/mobius-mpd/main/assets/examples_mpd.png"   width="80%"/>
+<img src="https://raw.githubusercontent.com/prakashchhipa/mobius-mpd/main/assets/examples_mpd.png"   width="100%"/>
 
 Background setting with and without padding.
-<img src="https://raw.githubusercontent.com/prakashchhipa/mobius-mpd/main/assets/background_options.png"   width="80%"/>
+<img src="https://raw.githubusercontent.com/prakashchhipa/mobius-mpd/main/assets/background_options.png"   width="100%"/>
 
 **Parent project page:** <https://prakashchhipa.github.io/projects/mpd/>
 
